@@ -1,0 +1,13 @@
+{
+    "name": "buggr",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "npm run setup:client && npm run setup:server",
+        "setup:client": "cd buggr.client && npm i",
+        "setup:server": "cd buggr.server && npm i",
+        "start": "node buggr.server/index.js"
+    },
+    "engines": {
+        "node": "^14.15.4"
+    }
+}
