@@ -6,8 +6,8 @@
     <router-view />
   </main>
   <footer>
-    <div class="bg-dark text-light text-center p-4">
-      Made with 💖 by CodeWorks
+    <div class="bg-custom text-light text-center p-4">
+      Made with Power by Daniel
     </div>
   </footer>
 </template>
@@ -25,6 +25,12 @@ export default {
 }
 </script>
 <style lang="scss">
+
+.bg-custom{
+  background-color: purple;
+  background-image:linear-gradient(to left, purple , red)
+
+}
 @import "./assets/scss/main.scss";
 
 </style>

@@ -23,6 +23,15 @@ export class NotesController extends BaseController {
     }
   }
 
+  async getNotes(req, res, next) {
+    try {
+      const data = await notesService.getLists({ boardId: req.params.id })
+      return res.send(data)
+    } catch (error) {
+      next(error)
+    }
+  }
+
   async deleteNote(req, res, next) {
     try {
       const data = await notesService.deleteNote(req.params.id, req.userInfo.id)

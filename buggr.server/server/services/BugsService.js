@@ -18,6 +18,10 @@ class BugsService {
     return await dbContext.Bugs.create(body)
   }
 
+  async editBug(body) {
+    return await dbContext.Bugs.findOneAndReplace(body)
+  }
+
   async deleteBug(id, userId) {
     const data = await dbContext.Bugs.findOneAndDelete({ _id: id, creatorId: userId })
     if (!data) {
