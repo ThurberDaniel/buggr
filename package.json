@@ -9,5 +9,8 @@
     },
     "engines": {
         "node": "^14.15.4"
+    },
+    "dependencies": {
+        "sweetalert2": "^10.16.7"
     }
 }

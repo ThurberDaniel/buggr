@@ -1,19 +1,53 @@
 <template>
-  <div class="home bg-primary flex-grow-1 d-flex flex-column align-top align-items-center justify-content-center">
-    <span class="align-top bg-warning">
-      1010
-      <button>Hello</button>
-    </span>
-    HOME PAGE
-    <div class="bg-success w-100">
-      hello123
-    </div>
+  <div class="container-fluid">
+    <button>create bug</button>
   </div>
 </template>
 
 <script>
+import { computed, onMounted, reactive } from 'vue'
+import { bugsService } from '../services/BugsService'
+import { AppState } from '../AppState'
+import Notification from '../utils/Notification'
+
 export default {
-  name: 'Home'
+  name: 'Home',
+  setup() {
+    const state = reactive({
+      newBug: {},
+      account: computed(() => AppState.account),
+      user: computed(() => AppState.user),
+      bugs: computed(() => AppState.bpugs),
+      activeBug: computed(() => AppState.activeBug)
+    })
+    onMounted(async() => {
+      try {
+        await bugsService.getAll()
+      } catch (error) {
+        Notification.toast('Error: ' + error, 'error')
+      }
+    })
+    return {
+      state,
+      async createNote() {
+        try {
+          await bugsService.createBug(state.newBug)
+          state.newBug = {}
+          Notification.toast('Added New Bug', 'success')
+        } catch (error) {
+          Notification.toast('Error: ' + error, 'error')
+        }
+      },
+      async deleteBug() {
+        try {
+          await bugsService.deleteBug(state.bugs.id)
+        } catch (error) {
+          Notification.toast('Error: ' + error, 'error')
+        }
+      }
+    }
+  },
+  components: {}
 }
 </script>
 

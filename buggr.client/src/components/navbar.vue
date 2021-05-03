@@ -2,11 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-newColor">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <img
-          alt="logo"
-          src="../assets/img/cw-logo.png"
-          height="45"
-        />
+        <h2>Buggr </h2>
       </div>
     </router-link>
     <button
@@ -50,7 +46,7 @@
             <img
               :src="user.picture"
               alt="user photo"
-              height="40"
+              height="75"
               class="rounded"
             />
             <span class="mx-3">{{ user.name }}</span>

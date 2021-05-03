@@ -2,9 +2,8 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 
 class BugsService {
-  async getAll(query = {}) {
-    return await dbContext.Bugs.find(query)
-      .populate('creator', 'name picture')
+  async getAll(query) {
+    return await dbContext.Bugs.find(query).populate('creator', 'name picture')
   }
 
   async getBugById(id) {
@@ -20,8 +19,8 @@ class BugsService {
     return await dbContext.Bugs.create(body)
   }
 
-  async editBug(body) {
-    return await dbContext.Bugs.findOneAndReplace(body)
+  async editBug(body, bugId) {
+    return await dbContext.Bugs.findOneAndUpdate({ _id: bugId }, body, { new: true })
   }
 
   async deleteBug(id, userId) {
