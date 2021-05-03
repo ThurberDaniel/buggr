@@ -2,12 +2,14 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 
 class BugsService {
-  async getAll(query) {
+  async getAll(query = {}) {
     return await dbContext.Bugs.find(query)
+      .populate('creator', 'name picture')
   }
 
   async getBugById(id) {
     const data = await dbContext.Bugs.findById(id)
+      .populate('creator', ' name picture')
     if (!data) {
       throw new BadRequest('Invalid Id')
     }
@@ -27,6 +29,7 @@ class BugsService {
     if (!data) {
       throw new BadRequest('Invalid Id - Delete')
     }
+    return 'Successfully deleted/edit'
   }
 }
 

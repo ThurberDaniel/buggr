@@ -10,11 +10,17 @@ class NotesService {
     return await dbContext.Notes.create(body)
   }
 
-  async deleteNote(id, userId) {
+  async notesByBugId(id) {
+    return await dbContext.Notes.find(id)
+      .populate('creator', 'name picture')
+  }
+
+  async deleteNotes(id, userId) {
     const data = await dbContext.Notes.findOneAndDelete({ _id: id, creatorId: userId })
     if (!data) {
       throw new BadRequest('Invalid Id - Delete')
     }
+    return 'Successfully Deleted'
   }
 }
 
