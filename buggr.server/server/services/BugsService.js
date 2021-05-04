@@ -23,12 +23,14 @@ class BugsService {
     return await dbContext.Bugs.findOneAndUpdate({ _id: bugId }, body, { new: true })
   }
 
-  async deleteBug(id, userId) {
-    const data = await dbContext.Bugs.findOneAndDelete({ _id: id, creatorId: userId })
+  async deleteBug(body) {
+    const original = await this.getBugById(body.id)
+    original.closed = true
+    const data = await dbContext.Bugs.findOneAndUpdate({ _id: body.id, creatorId: body.creatorId }, original, { new: true })
     if (!data) {
       throw new BadRequest('Invalid Id - Delete')
     }
-    return 'Successfully deleted/edit'
+    return 'Successfully Closed!'
   }
 }
 

@@ -3,14 +3,17 @@
     <div class="border-custom d-flex flex-direction justify-content-between inline">
       <p class="py-3 pl-2">
         <img class="rounded-circle small-image" :src="note.creator.picture" alt="Creator Picture">
+
+        <b>Name:</b>
         {{ note.creator.name }}
       </p>
       <p class="py-3 pl-2">
+        <b>Message</b> :
         {{ note.body }}
       </p>
       <p class="py-3 pl-2">
         <button type="button" class="btn btn-outline-danger" @click="deleteNote" v-if="state.user.isAuthenticated && state.account.id === note.creatorId">
-          <i class="fas fa-trash-alt"></i>
+          <small>X</small>
         </button>
       </p>
     </div>
@@ -22,7 +25,7 @@ import { AppState } from '../AppState'
 import Notification from '../utils/Notification'
 import { notesService } from '../services/NotesService'
 export default {
-  name: 'NoteComponent',
+  name: 'NotesComponent',
   props: {
     note: {
       type: Object,

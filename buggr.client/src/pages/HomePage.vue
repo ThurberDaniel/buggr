@@ -1,114 +1,83 @@
 <template>
   <div class="container-fluid">
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
-      Add Bug
-    </button>
-
-    <!-- Modal -->
-    <div class="modal fade"
-         id="exampleModal"
-         tabindex="-1"
-         role="dialog"
-         aria-labelledby="exampleModalLabel"
-         aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              Report Issue
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+    <div class="home flex-grow-1 d-flex flex-column">
+      <div class="row" v-if="state.bugs">
+        <div class="col-md-6">
+          <div class="d-flex flex-direction inline ml-2 my-3">
+            <h1 class="mr-2">
+            </h1>
+            <button title="Open Create Bug Form"
+                    type="button"
+                    class="btn"
+                    data-toggle="modal"
+                    data-target="#new-bug-form"
+                    v-if="state.user.isAuthenticated"
+            >
+              <i class="fas fa-plus border-dark" aria-hidden="true">Add Bug</i>
             </button>
-            <!-- <h3>{{ state.account }}</h3> -->
           </div>
-          <div class="modal-body">
-            <form @submit.prevent="createBug" class="form-inline">
-              <div class="form-group">
-                <p> Title</p>
-                <label for="title"></label>
-                <input type="text"
-                       class="form-control"
-                       name="title"
-                       id="title"
-                       aria-describedby="helpId"
-                       placeholder="Title"
-                       v-model="state.newBug.title"
-                       required
-                />
-              </div>
-              <label for="comment"></label>
-              <br>
-              <p> Comments</p>
+        </div>
+        <div class="col-6 d-flex flex-direction align-items-end justify-content-end">
+          <input type="checkbox" id="hideBugs" @click="hideBugs">
+          <small>Remove Closed</small>
+        </div>
+      </div>
 
-              <input type="textarea"
-                     class="form-control w-75"
-                     name="main-text"
+      <div class="row d-flex flex direction justify-content-center">
+        <BugsComponent v-for="bug in state.bugs" :key="bug.id" :bug="bug" />
+      </div>
+    </div>
+  </div>
+
+  <!-- BEGINNING OF MODAL -->
+  <div class="modal fade" id="new-bug-form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            Add A Bug To List
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body allText">
+          <form @submit.prevent="createBug">
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text"
+                     class="form-control"
                      id="title"
-                     aria-describedby="helpId"
-                     placeholder="Your Comment Here"
+                     aria-describedby="title"
+                     placeholder="Bug Title"
+                     v-model="state.newBug.title"
+                     required
+              >
+            </div>
+            <div class="form-group">
+              <label for="comment">Comment</label>
+              <input type="text"
+                     class="form-control"
+                     id="comment"
+                     aria-describedby="comment"
+                     placeholder="Bug Comment"
                      v-model="state.newBug.description"
                      required
-              />
-              <button class="btn bg-blueish mt-2" type="submit">
-                <i class="fas fa-plus fa-2x"></i>
+              >
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-warning" data-dismiss="modal">
+                Close
               </button>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">
-                  Close
-                </button>
-                <button type="submit" class="btn btn-success">
-                  Report Bug
-                </button>
-              </div>
-            </form>
-          </div>
+
+              <button type="submit" class="btn btn-primary">
+                Add
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-    <!-- /// TABLE------------------------------>
-    {{ state.bugs.description }}
-    <div class="row">
-      <div class="col"></div>
-    </div>
-    <table class="table table-dark shadow">
-      <thead>
-        <tr>
-          <th scope="col" class="text-success">
-            Number
-          </th>
-          <th scope="col" class="text-success">
-            Title
-          </th>
-          <th scope="col" class="text-success">
-            Reported By
-          </th>
-          <th scope="col" class="text-success">
-            Status
-          </th>
-          <th scope="col" class="text-success">
-            Last Modified
-          </th>
-        </tr>
-      </thead>
-      <tbody v-if="state.bugs">
-        <tr v-for="bugz in state.bugs" :key="bugz.id" :banana="bugz">
-          <th>
-            {{ state.bugs.length = state.bugs.length + 1 }}
-          </th>
-          <th>
-            {{ bugz.title }}
-          </th>
-          <td>{{ bugz.description }}</td>
-          <td>
-            {{ bugz.closed }}
-          </td>
-          <td>{{ bugz.updatedAt }}</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </template>
 
@@ -117,16 +86,14 @@ import { computed, onMounted, reactive } from 'vue'
 import { bugsService } from '../services/BugsService'
 import { AppState } from '../AppState'
 import Notification from '../utils/Notification'
-
+import $ from 'jquery'
 export default {
   name: 'Home',
   setup() {
     const state = reactive({
       newBug: {},
-      account: computed(() => AppState.account),
       user: computed(() => AppState.user),
-      bugs: computed(() => AppState.bugs),
-      activeBug: computed(() => AppState.activeBug)
+      bugs: computed(() => AppState.bugs)
     })
     onMounted(async() => {
       try {
@@ -141,31 +108,23 @@ export default {
         try {
           await bugsService.createBug(state.newBug)
           state.newBug = {}
-          Notification.toast('Added Bug Issue', 'success')
+          $('#new-bug-form').modal('hide')
+          Notification.toast('Added Bug', 'success')
         } catch (error) {
-          Notification.toast('Error: ' + error, 'error')
+          Notification.toast('Error:' + error, 'error')
         }
       },
-      async createNote() {
+      async hideBugs() {
         try {
-          await bugsService.createBug(state.newBug)
-          state.newBug = {}
-          Notification.toast('Added New Bug', 'success')
+          await bugsService.hideBugs()
         } catch (error) {
-          Notification.toast('Error: ' + error, 'error')
-        }
-      },
-      async deleteBug() {
-        try {
-          await bugsService.deleteBug(state.bugs.id)
-        } catch (error) {
-          Notification.toast('Error: ' + error, 'error')
+          Notification.toast('Error: ' + error, ' error')
         }
       }
     }
-  },
-  components: {}
+  }
 }
+
 </script>
 
 <style scoped lang="scss">
@@ -176,5 +135,15 @@ export default {
     height: 200px;
     width: 200px;
   }
+}
+
+.btn{
+  background-color: green;
+  color:white;
+  border-color: black;
+}
+.btn:hover{
+  background-color: black;
+  color:pink;
 }
 </style>

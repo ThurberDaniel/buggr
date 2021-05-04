@@ -13,8 +13,8 @@ const routes = [
   },
   {
     path: '/bugDetails/:id',
-    name: 'BugDetailPage',
-    component: loadPage('BugDetailPage')
+    name: 'bugDetails',
+    component: loadPage('BugsDetailPage')
   },
 
   {

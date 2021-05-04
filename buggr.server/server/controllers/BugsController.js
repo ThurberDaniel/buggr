@@ -59,7 +59,7 @@ export class BugsController extends BaseController {
 
   async notesByBugId(req, res, next) {
     try {
-      const data = await notesService.notesByBugId({ _id: req.params.id })
+      const data = await notesService.notesByBugId({ bug: req.params.id })
       return res.send(data)
     } catch (error) {
       next(error)
@@ -68,7 +68,10 @@ export class BugsController extends BaseController {
 
   async deleteBug(req, res, next) {
     try {
-      const data = await bugsService.deleteBug(req.params.id, req.userInfo.id)
+      req.body.creatorId = req.userInfo.id
+      req.body.closed = true
+      req.body.id = req.params.id
+      const data = await bugsService.deleteBug(req.body)
       return res.send(data)
     } catch (error) {
       next(error)

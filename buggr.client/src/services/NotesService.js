@@ -5,6 +5,7 @@ class NotesService {
   async notesByBugId(id) {
     const banana = await api.get(`api/bugs/${id}/notes`)
     AppState.notes = banana.data
+    console.log(banana.data)
   }
 
   async createNote(newNote, id) {

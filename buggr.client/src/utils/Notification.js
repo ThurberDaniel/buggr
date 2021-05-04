@@ -10,7 +10,7 @@ export default class Notification {
  * -----------------------------------
  * {@link https://sweetalert2.github.io/#configuration|Check out Sweet Alerts}
  */
-  static async confirmAction(title = 'Are you sure?', text = "You won't be able to revert this!", icon = 'warning', confirmButtonText = 'Yes, delete it!') {
+  static async confirmAction(title = 'Are you sure?', text = "You won't be able to revert this!", icon = 'warning', confirmButtonText = 'Yes, Confirm Action!') {
     try {
       const res = await Swal.fire({
         title: title,
@@ -40,7 +40,7 @@ export default class Notification {
  * -----------------------------------
  * {@link https://sweetalert2.github.io/#configuration|Check out Sweet Alerts}
  */
-  static toast(title = 'Warning!', display = 'warning', position = 'top-end', timer = 3000, progressBar = true) {
+  static toast(title = 'Warning!', display = 'warning', position = 'top-end', timer = 10000, progressBar = true) {
     Swal.fire({
       title: title,
       icon: display,
