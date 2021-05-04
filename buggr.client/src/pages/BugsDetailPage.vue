@@ -59,7 +59,7 @@ import Notification from '../utils/Notification'
 import { useRoute } from 'vue-router'
 import { AppState } from '../AppState'
 export default {
-  name: 'BugDetails',
+  name: 'BugsDetails',
   setup() {
     const route = useRoute()
     const state = reactive({

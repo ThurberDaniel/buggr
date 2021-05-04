@@ -108,7 +108,6 @@ export default {
 .bg-newColor{
   background-color: yellow;
   background-image:linear-gradient(to right, rgb(215, 184, 12))
-
 }
 
 .dropdown-menu {
