@@ -2,7 +2,9 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-newColor">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <h2>Buggr </h2>
+        <h2 class="main-text">
+          Buggr
+        </h2>
       </div>
     </router-link>
     <button
@@ -99,9 +101,13 @@ export default {
 </script>
 
 <style scoped>
+.main-text{
+  color: black
+
+}
 .bg-newColor{
-  background-color: purple;
-  background-image:linear-gradient(to right, purple , red)
+  background-color: yellow;
+  background-image:linear-gradient(to right, rgb(215, 184, 12))
 
 }
 

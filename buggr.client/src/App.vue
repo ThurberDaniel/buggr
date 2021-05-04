@@ -27,8 +27,8 @@ export default {
 <style lang="scss">
 
 .bg-custom{
-  background-color: purple;
-  background-image:linear-gradient(to left, purple , red)
+  background-color: yellow;
+  background-image:linear-gradient(to left, rgb(215, 184, 12))
 
 }
 @import "./assets/scss/main.scss";

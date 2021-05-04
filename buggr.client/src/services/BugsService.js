@@ -9,8 +9,8 @@ class BugsService {
 
   async createBug(newBug) {
     const res = await api.post('api/bugs', newBug)
-    AppState.bugs = res.data
-    this.getAll()
+    AppState.bugs.push(res.data)
+    // this.getAll()
   }
 
   async deleteBug(id) {
