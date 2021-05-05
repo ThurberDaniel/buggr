@@ -1,5 +1,5 @@
 import { dbContext } from '../db/DbContext'
-import { BadRequest } from '../utils/Errors'
+import { BadRequest, Forbidden } from '../utils/Errors'
 
 class BugsService {
   async getAll(query) {
@@ -19,8 +19,12 @@ class BugsService {
     return await dbContext.Bugs.create(body)
   }
 
-  async editBug(body, bugId) {
-    return await dbContext.Bugs.findOneAndUpdate({ _id: bugId }, body, { new: true })
+  async editBug(body) {
+    const found = await this.getBugById({ _id: body.id })
+    if (found.closed === true) {
+      throw new Forbidden('Sorry You cannot change this')
+    }
+    return await dbContext.Bugs.findOneAndUpdate({ _id: body.id }, body, { new: true })
   }
 
   async deleteBug(body) {

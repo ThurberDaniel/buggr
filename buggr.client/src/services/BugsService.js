@@ -1,5 +1,6 @@
 import { AppState } from '../AppState.js'
 import { api } from './AxiosService.js'
+import router from '../router'
 
 class BugsService {
   async getAll() {
@@ -14,10 +15,10 @@ class BugsService {
 
   async createBug(newBug) {
     const res = await api.post('api/bugs', newBug)
+    router.push({ name: 'bugDetails', params: { id: res.data.id } })
     this.getAll(res.data)
   }
 
-  // TODO finish editBug
   async editBug(body) {
     await api.get('api/bugs')
     if (document.getElementById('hideBugs').checked) {
